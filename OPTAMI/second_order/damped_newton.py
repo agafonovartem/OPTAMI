@@ -109,12 +109,6 @@ def exact(g, params, lambd, testing):
     if testing and (A.t() - A).max() > 0.1:
         raise ValueError("`A` is not symmetric")
 
-    # print(A)
-    # print(torch.diag(torch.ones_like(c)))
-    # print(A + torch.diag(torch.ones_like(c)).mul_(lambd))
-
-    # print(-c)
-
     h = torch.linalg.solve(A + torch.diag(torch.ones_like(c)).mul_(lambd), -c)
 
     return tuple_to_vec.rollup_vector(h, list(params))
