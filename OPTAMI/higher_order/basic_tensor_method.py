@@ -1,7 +1,7 @@
 import math
 import torch
 from torch.optim.optimizer import Optimizer
-from OPTAMI.utils import tuple_to_vec, derivatives, line_search
+from OPTAMI.OPTAMI.utils import tuple_to_vec, derivatives, line_search
 
 
 class BasicTensorMethod(Optimizer):

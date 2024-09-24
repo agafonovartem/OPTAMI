@@ -1,7 +1,7 @@
 from torch.optim.optimizer import Optimizer
-from OPTAMI.utils import tuple_to_vec
+from OPTAMI.OPTAMI.utils import tuple_to_vec
 import torch
-from OPTAMI.higher_order._supplemetrary import step_definer
+from OPTAMI.OPTAMI.higher_order._supplemetrary import step_definer
 
 class ProxPointSS(Optimizer):
     """Implements Superfast Second-Order Method.

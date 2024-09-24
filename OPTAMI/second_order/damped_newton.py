@@ -1,6 +1,6 @@
 import torch
 from torch.optim.optimizer import Optimizer
-from OPTAMI.utils import tuple_to_vec, derivatives
+from OPTAMI.OPTAMI.utils import tuple_to_vec, derivatives
 import math
 
 class DampedNewton(Optimizer):
@@ -69,7 +69,7 @@ https://arxiv.org/pdf/2211.00140.pdf
             elif variant == 'GradReg':
                 g_norm = torch.sqrt(tuple_to_vec.tuple_norm_square(g))
                 lambd = torch.sqrt(L * g_norm)
-                alpha = 1.
+                # alpha = 1.
 
             if subsolver is None:
                 h = exact(g, params, lambd, self.testing)
@@ -108,6 +108,12 @@ def exact(g, params, lambd, testing):
 
     if testing and (A.t() - A).max() > 0.1:
         raise ValueError("`A` is not symmetric")
+
+    # print(A)
+    # print(torch.diag(torch.ones_like(c)))
+    # print(A + torch.diag(torch.ones_like(c)).mul_(lambd))
+
+    # print(-c)
 
     h = torch.linalg.solve(A + torch.diag(torch.ones_like(c)).mul_(lambd), -c)
 

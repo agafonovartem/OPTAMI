@@ -1,7 +1,7 @@
 import math
 import torch
 from torch.optim.optimizer import Optimizer
-from OPTAMI.higher_order._supplemetrary import step_definer
+from OPTAMI.OPTAMI.higher_order._supplemetrary import step_definer
 
 
 class Hyperfast(Optimizer):
