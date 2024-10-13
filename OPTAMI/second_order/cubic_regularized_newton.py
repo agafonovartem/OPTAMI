@@ -25,7 +25,8 @@ class CubicRegularizedNewton(Optimizer):
     ORDER = 2
     MONOTONE = True
 
-    def __init__(self, params, L: float = 1., subsolver: Optimizer = None,
+    def __init__(self, params, L: float = 1., delta: float = 0., 
+                 subsolver: Optimizer = None,
                  subsolver_args: dict = None, max_iters: int = 100,
                  rel_acc: float = 1e-1,
                  verbose: bool = False, testing: bool = False):
@@ -33,7 +34,7 @@ class CubicRegularizedNewton(Optimizer):
             raise ValueError(f"Invalid learning rate: L = {L}")
 
         super().__init__(params, dict(
-            L=L, subsolver=subsolver,
+            L=L, delta=delta, subsolver=subsolver,
             subsolver_args=subsolver_args or {'lr': 1e-2},
             max_iters=max_iters, rel_acc=rel_acc))
         self.verbose = verbose
@@ -49,6 +50,7 @@ class CubicRegularizedNewton(Optimizer):
         for group in self.param_groups:
             params = group['params']
             L = group['L']
+            delta = group['delta']
             rel_acc = group['rel_acc']
             max_iters = group['max_iters']
             subsolver = group['subsolver']
@@ -60,8 +62,9 @@ class CubicRegularizedNewton(Optimizer):
             if subsolver is None:
                 hessian = derivatives.flat_hessian(grad, list(params))
                 h = subproblem_solver.cubic_exact(params=params, grad_approx=grad, hessian_approx=hessian, L=L,
-                                                  testing=self.testing)
+                                                  delta=delta, testing=self.testing)
             else:
+                assert delta==0
                 is_satisfactory, h = iterative(params=params, grad=grad, L=L, subsolver=subsolver,
                                                subsolver_args=subsolver_args, max_iters=max_iters, rel_acc=rel_acc)
 
