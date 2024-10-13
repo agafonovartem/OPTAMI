@@ -93,13 +93,13 @@ def exact(params, closure, L, delta=1e-8, testing=False):
         return (T + L / 2 * tau).reciprocal()
 
     def dual(tau):
-        return L / 12 * tau.pow(3) + 1 / 2 * \
+        return L / 12 * tau ** 3 + 1 / 2 * \
                inv(T, L, tau).mul(ct.square()).sum()
 
     tau_best = line_search.ray_line_search(
         dual,
-        left_point=torch.tensor([0.]),
-        middle_point=torch.tensor([2.]),
+        left_point=0, # torch.tensor([0.], device=T.device),
+        middle_point=1, # torch.tensor([2.], device=T.device),
         delta=delta)
 
     invert = inv(T, L, tau_best)
