@@ -1,8 +1,7 @@
 import torch
-import OPTAMI as opt
 import time
-from OPTAMI.utils import derivatives
-from OPTAMI.utils import tuple_to_vec as ttv
+from OPTAMI.OPTAMI.utils import derivatives
+from OPTAMI.OPTAMI.utils import tuple_to_vec as ttv
 
 
 def func_fit(optimizer, iter_num, func, x, precision: float = 1e-10, **kwargs):
