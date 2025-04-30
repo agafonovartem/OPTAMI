@@ -104,14 +104,14 @@ def L_3_stochastic(points_number, vector_number, func, x, *args):
 def L_2_stochastic(points_number, vector_number, func, x, *args):
     L = 0.
     dimension = x.size()
-    z_w = torch.randn(dimension)
-    y_w = torch.randn(dimension)
-    vec_w = torch.randn(dimension)
+    z_w = torch.randn(dimension, dtype=x.dtype)
+    y_w = torch.randn(dimension, dtype=x.dtype)
+    vec_w = torch.randn(dimension, dtype=x.dtype)
 
     for j in range(points_number):
-        z = torch.randn(dimension)
+        z = torch.randn(dimension, dtype=x.dtype)
         z.div_(z.norm()).requires_grad_()
-        y = torch.randn(dimension)
+        y = torch.randn(dimension, dtype=x.dtype)
         y.div_(y.norm()).requires_grad_()
         optimizer_z = torch.optim.Adam([z])
         optimizer_y = torch.optim.Adam([y])
@@ -125,7 +125,7 @@ def L_2_stochastic(points_number, vector_number, func, x, *args):
             return func(y, *args)
 
         for i in range(vector_number):
-            vec = torch.randn(dimension)
+            vec = torch.randn(dimension, dtype=x.dtype)
             vec.div_(vec.norm())
             hvp_z, _ = derivatives.hess_vec_prod(closure_z, [z], vec)
             hvp_y, _ = derivatives.hess_vec_prod(closure_y, [y], vec)
